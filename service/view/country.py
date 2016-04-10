@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
-import json
 from service.models import Country
 
 def index(request):
@@ -17,3 +16,12 @@ def get_country_by_id(request, country_id):
 	data = serializers.serialize("json", country)
 	data = data.strip("[]")
 	return HttpResponse(data)
+
+def create(request):
+	pass
+
+def update(request, country_id, name, short_name):
+	pass
+
+def delete(request):
+	pass

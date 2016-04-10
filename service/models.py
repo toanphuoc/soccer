@@ -21,8 +21,14 @@ class Club(models.Model):
 	name = models.CharField(max_length=100)
 	country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
+	class Meta:
+		unique_together = (('name'), )
+
 	def __str__(self):
 		return self.name
+
+	def get_list():
+		return Club.objects.all()
 
 class Position(models.Model):
 	"""docstring for Position"""
