@@ -7,8 +7,14 @@ class Country(models.Model):
 	short_name = models.CharField(max_length=20)
 
 	def __str__(self):
-		return self.short_name
+	 	return self.short_name
 
+	def get_list():
+		return Country.objects.all()
+
+	def get_country_by_id(country_id):
+		data = Country.objects.get(pk=country_id)
+		return [data,]
 
 class Club(models.Model):
 	"""docstring for Club"""
