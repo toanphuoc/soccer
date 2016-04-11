@@ -16,9 +16,9 @@ def get_list(request):
 
 def get_country_by_id(request, country_id):
 	country = Country.get_country_by_id(country_id)
-	data = serializers.serialize("json", country)
-	data = data.strip("[]")
-	return HttpResponse(data)
+	serialized = CountrySerializer(country[0])
+	json = JSONRenderer().render(serialized.data)
+	return HttpResponse(json);
 
 def create(request):
 	pass
