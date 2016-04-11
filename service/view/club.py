@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.core import serializers
+from rest_framework.renderers import JSONRenderer
+from service.serializers import ClubSerializer
 from service.models import Club
 
 def index(request):
@@ -7,5 +9,6 @@ def index(request):
 
 def get_list(request):
 	club = Club.get_list()
-	data = serializers.serialize("json", club)
-	return HttpResponse(data)
+	serialized = ClubSerializer(club, many=True)
+	json = JSONRenderer().render(serialized.data)
+	return HttpResponse(json);
