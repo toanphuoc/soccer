@@ -72,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'football_service.wsgi.application'
 
-
+APPEND_SLASH = False
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 

@@ -25,10 +25,14 @@ def create(request):
 	pass
 
 @api_view(['GET', 'POST'])
-def update(request, country_id, name, short_name):
+def update(request, format=None):
 	# row = Country.update(country_id, name, short_name)
 	if request.method == 'POST':
+		print('ssssss')
+		data = request.data
+		print(data)
 		serializer = CountrySerializer(data=request.data)
+		print(serializer)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
