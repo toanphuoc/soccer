@@ -16,12 +16,6 @@ class Country(models.Model):
 		data = Country.objects.get(pk=country_id)
 		return [data,]
 
-	def update(id, name_country, short_name):
-		cursor =  connection.cursor()
-		cursor.execute('UPDATE service_country SET name_country = %s, short_name = %s WHERE id = %s', [name_country, short_name, id])
-		row = cursor.fetchone()
-		return row
-
 class Club(models.Model):
 	"""docstring for Club"""
 	name = models.CharField(max_length=100)
