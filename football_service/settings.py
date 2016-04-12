@@ -72,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'football_service.wsgi.application'
 
-APPEND_SLASH = False
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
@@ -106,6 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

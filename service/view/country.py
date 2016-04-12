@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 from service.models import Country
 from service.serializers import CountrySerializer
 
@@ -21,18 +23,36 @@ def get_country_by_id(request, country_id):
 	json = JSONRenderer().render(serialized.data)
 	return HttpResponse(json);
 
-def create(request):
-	pass
+@api_view(['GET', 'POST', 'PUT'])
+def update(request, country_id, format=None):
+	try:
+		country = Country.objects.get(pk=country_id)
+	except Country.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	if request.method == 'PUT':
+		serializer = CountrySerializer(country, data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete(request, country_id):
+	try:
+		country = Country.objects.get(pk=country_id)
+	except Country.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	if(request.method == 'DELETE'):
+		country.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'POST'])
-def update(request, format=None):
+def create(request, format=None):
 	# row = Country.update(country_id, name, short_name)
 	if request.method == 'POST':
-		print('ssssss')
-		data = request.data
-		print(data)
 		serializer = CountrySerializer(data=request.data)
-		print(serializer)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
