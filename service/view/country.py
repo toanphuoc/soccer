@@ -56,13 +56,9 @@ def delete(request, country_id):
 @csrf_exempt
 @api_view(['GET', 'POST'])
 def create(request, format=None):
-	# row = Country.update(country_id, name, short_name)
 	if request.method == 'POST':
 		serializer = CountrySerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-def delete(request):
-	pass

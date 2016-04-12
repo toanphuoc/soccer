@@ -11,7 +11,7 @@ urlpatterns = [
 	url(r'^country/getCountry/(?P<country_id>[0-9]+)/$', country.get_country_by_id),
 	url(r'^country/create/$', country.create),
 	url(r'^country/update/(?P<country_id>[0-9]+)/$', country.update),
-	# url(r'^country/delete/(?P<country_id>[0-9]+)/$', country.delete),
+	url(r'^country/delete/(?P<country_id>[0-9]+)/$', country.delete),
 
 	#------------------list url club----------------
 	url(r'^$', views.index, name='index'),
