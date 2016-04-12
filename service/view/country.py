@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from service.models import Country
 from service.serializers import CountrySerializer
@@ -10,6 +11,7 @@ from service.serializers import CountrySerializer
 def index(request):
 	return HttpResponse("Hello Country View")
 
+@csrf_exempt
 def get_list(request):
 	if request.method == 'GET':
 		country = Country.get_list()
@@ -17,12 +19,14 @@ def get_list(request):
 		json = JSONRenderer().render(serialized.data)
 		return HttpResponse(json);
 
+@csrf_exempt
 def get_country_by_id(request, country_id):
 	country = Country.get_country_by_id(country_id)
 	serialized = CountrySerializer(country[0])
 	json = JSONRenderer().render(serialized.data)
 	return HttpResponse(json);
 
+@csrf_exempt
 @api_view(['GET', 'POST', 'PUT'])
 def update(request, country_id, format=None):
 	try:
@@ -37,6 +41,7 @@ def update(request, country_id, format=None):
 			return Response(serializer.data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
 @api_view(['DELETE'])
 def delete(request, country_id):
 	try:
@@ -48,6 +53,7 @@ def delete(request, country_id):
 		country.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def create(request, format=None):
 	# row = Country.update(country_id, name, short_name)

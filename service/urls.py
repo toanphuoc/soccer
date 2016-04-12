@@ -14,8 +14,10 @@ urlpatterns = [
 	# url(r'^country/delete/(?P<country_id>[0-9]+)/$', country.delete),
 
 	#------------------list url club----------------
-	url(r'^club/getList/$', club.get_list),
 	url(r'^$', views.index, name='index'),
+	url(r'^club/getList/$', club.get_list),
+	url(r'^club/getClub/(?P<club_id>[0-9]+)/$', club.get_club_by_id),
+	url(r'^club/create/$', club.create),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
