@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
-from service.serializers import ClubSerializer
+from service.serializers import ClubSerializer, CountrySerializer
 from service.models import Club, Country
 
 def index(request):
@@ -29,6 +29,7 @@ def create(request, format=None):
 	if request.method == 'POST':
 		country = Country.objects.get(pk=request.data['country'])
 		serialized = ClubSerializer(data=request.data)
+		print(serialized)
 		if serialized.is_valid():
 			serialized.save()
 			return Response(serialized.data, status=status.HTTP_201_CREATED)
