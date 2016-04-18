@@ -69,10 +69,15 @@ class Tournaments(models.Model):
 	def __str__(self):
 		return self.name
 
+class VideoType(models.Model):
+	name = models.CharField(max_length=200, null=True)
+
+	def __str__(self):
+		return self.name
+
 class Match(models.Model):
 	host_club = models.ForeignKey(Club, on_delete=models.CASCADE, null=False, related_name='host_club')
 	guest_club = models.ForeignKey(Club, on_delete=models.CASCADE, null=False, related_name='guest_club')
-	ulr_video = models.CharField(max_length=200, null=False)
 	date = models.DateTimeField()
 	tournaments = models.ForeignKey(Tournaments, null=True, related_name='tournaments')
 
@@ -81,6 +86,19 @@ class Match(models.Model):
 		return '%s - %s' % (self.host_club, self.guest_club)
 	class Meta:
 		ordering = ['-date']
+
+class MatchDetail(models.Model):
+	match = models.ForeignKey(Match, related_name='matchs')
+	video_type = models.ForeignKey(VideoType, on_delete=models.CASCADE)
+	url = models.CharField(max_length=500)
+
+	def __str__(self):
+		return self.url
+
+	class Meta:
+		ordering = ['video_type']
+
+
 
 
 

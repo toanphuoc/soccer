@@ -32,7 +32,7 @@ def create(request, *args, **kwargs):
 		except Tournaments.DoesNotExist:
 			return Response(status=status.HTTP_404_NOT_FOUND)
 
-		match = Match.objects.create(host_club=host_club, guest_club=guest_club, tournaments=tournament, ulr_video=data['ulr_video'], date=data['date'])
+		match = Match.objects.create(host_club=host_club, guest_club=guest_club, tournaments=tournament, date=data['date'])
 		match.save()
 		if match.id > 0:
 			return Response(True, status=status.HTTP_201_CREATED)
