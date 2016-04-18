@@ -15,7 +15,7 @@ def index(request):
 def get_list(request):
 	if request.method == 'GET':
 		tournaments = Tournaments.objects.all()
-		serialized = CountrySerializer(tournaments, many=True)
+		serialized = TournamentsSerializer(tournaments, many=True)
 		json = JSONRenderer().render(serialized.data)
 		return HttpResponse(json);
 

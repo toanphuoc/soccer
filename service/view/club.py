@@ -7,13 +7,17 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from service.serializers import ClubSerializer, CountrySerializer
 from service.models import Club, Country
+from django.test.client import RequestFactory
+
+
+context = dict(request=RequestFactory().get('/'))
 
 def index(request):
 	return HttpResponse("Hello Club View")
 
 def get_list(request):
 	club = Club.get_list()
-	serialized = ClubSerializer(club, many=True)
+	serialized = ClubSerializer(club, context=context, many=True)
 	json = JSONRenderer().render(serialized.data)
 	return HttpResponse(json);
 
@@ -25,12 +29,12 @@ def get_club_by_id(request, club_id):
 
 @csrf_exempt
 @api_view(['POST'])
-def create(request, format=None):
+def create(request, *args, **kwargs):
 	if request.method == 'POST':
-		country = Country.objects.get(pk=request.data['country'])
-		serialized = ClubSerializer(data=request.data)
-		print(serialized)
-		if serialized.is_valid():
-			serialized.save()
-			return Response(serialized.data, status=status.HTTP_201_CREATED)
+		data = request.data
+		country = Country.objects.get(pk=data['country'])
+		club = Club.objects.create(name=data['name'], stadium=data['stadium'], logo=data['logo'], country=country)
+		club.save()
+		if club.id > 0:
+			return Response('Create success', status=status.HTTP_201_CREATED)
 		return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)

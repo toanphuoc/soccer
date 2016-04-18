@@ -1,21 +1,28 @@
 from rest_framework import serializers
-from service.models import Country, Club, Tournaments
+from service.models import Country, Club, Tournaments, Match
 
 class CountrySerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Country
-		fields = ('id', 'name_country', 'short_name')
+		fields = ('id', 'name_country')
 
 class ClubSerializer(serializers.ModelSerializer):
-	country = CountrySerializer(required=True)
+	country = CountrySerializer()
 	class Meta:
 		model = Club
-		fields = ('id', 'name', 'country')
+		fields = ('id', 'name', 'logo', 'stadium', 'country')
 
 class TournamentsSerializer(serializers.ModelSerializer):
 	"""docstring for TournamentsSerializer"""
+	country = CountrySerializer()
 	class Meta:
 		model = Tournaments
-		fields  = ('id', 'name', 'country')
-		
-		
+		fields  = ('id', 'name', 'logo' ,'country')
+
+class MatchSerializer(serializers.ModelSerializer):
+	host_club = ClubSerializer(required=True)
+	guest_club = ClubSerializer(required=True)
+	tournaments = TournamentsSerializer(required=True)
+	class Meta:
+		model = Match
+		fields = ('id', 'host_club', 'guest_club', 'ulr_video', 'date', 'tournaments')

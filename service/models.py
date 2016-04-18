@@ -23,7 +23,7 @@ class Country(models.Model):
 class Club(models.Model):
 	"""docstring for Club"""
 	name = models.CharField(max_length=100)
-	country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='clubs')
+	country = models.ForeignKey(Country, related_name='clubs')
 	stadium = models.CharField(max_length=100, null=False, blank=True)
 	logo = models.TextField(null=True)
 
@@ -32,6 +32,9 @@ class Club(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def __unicode__(self):
+		return self.country.name_country
 
 	def get_list():
 		return Club.objects.all()

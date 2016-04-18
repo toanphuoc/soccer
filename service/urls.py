@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
-from .view import country, club, tournaments
+from .view import country, club, tournaments, match
 
 urlpatterns = [
 
@@ -19,10 +19,17 @@ urlpatterns = [
 	url(r'^club/get_club/(?P<club_id>[0-9]+)/$', club.get_club_by_id),
 	url(r'^club/create/$', club.create),
 
+	#--------------------list url tournaments------------------------------
 	url(r'^tournaments/$', tournaments.index, name='index'),
 	url(r'^tournaments/get_list/$', tournaments.get_list),
 	url(r'^tournaments/create/$', tournaments.create),
 	url(r'^tournaments/get_all_tournaments_in_country/(?P<country_id>[0-9]+)/$', tournaments.get_all_tournaments_in_country),
+
+	#--------------------list url about match-----------------------------------
+	url(r'match/$', match.index, name='index'),
+	url(r'match/create/$', match.create),
+	url(r'match/get_list/$', match.get_list),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
