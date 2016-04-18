@@ -32,7 +32,11 @@ def get_club_by_id(request, club_id):
 def create(request, *args, **kwargs):
 	if request.method == 'POST':
 		data = request.data
-		country = Country.objects.get(pk=data['country'])
+		try:
+			country = Country.objects.get(pk=data['country'])
+		except Club.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+
 		club = Club.objects.create(name=data['name'], stadium=data['stadium'], logo=data['logo'], country=country)
 		club.save()
 		if club.id > 0:

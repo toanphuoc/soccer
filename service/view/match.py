@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import status
@@ -34,7 +35,7 @@ def create(request, *args, **kwargs):
 		match = Match.objects.create(host_club=host_club, guest_club=guest_club, tournaments=tournament, ulr_video=data['ulr_video'], date=data['date'])
 		match.save()
 		if match.id > 0:
-			return Response('Create success', status=status.HTTP_201_CREATED)
+			return Response(True, status=status.HTTP_201_CREATED)
 		return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @csrf_exempt
@@ -42,6 +43,25 @@ def create(request, *args, **kwargs):
 def get_list(request):
 	if request.method =='GET':
 		match = Match.objects.all()
+		serialized = MatchSerializer(match, many=True)
+		json = JSONRenderer().render(serialized.data)
+		return HttpResponse(json);
+
+
+@csrf_exempt
+@api_view(['GET'])
+def get_match_today(request):
+	if request.method == 'GET':
+		match = Match.objects.filter(date=datetime.now().date())
+		serialized = MatchSerializer(match, many=True)
+		json = JSONRenderer().render(serialized.data)
+		return HttpResponse(json);
+
+@csrf_exempt
+@api_view(['GET'])
+def get_match_by_tournament(request, tournament_id):
+	if request.method == 'GET':
+		match = Match.objects.filter(tournaments=tournament_id)
 		serialized = MatchSerializer(match, many=True)
 		json = JSONRenderer().render(serialized.data)
 		return HttpResponse(json);

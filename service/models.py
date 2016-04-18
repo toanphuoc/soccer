@@ -70,6 +70,9 @@ class Match(models.Model):
 	date = models.DateTimeField()
 	tournaments = models.ForeignKey(Tournaments, null=True, related_name='tournaments')
 
+	class Meta:
+		ordering = ['-date']
+
 
 
 

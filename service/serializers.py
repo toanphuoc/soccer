@@ -20,9 +20,11 @@ class TournamentsSerializer(serializers.ModelSerializer):
 		fields  = ('id', 'name', 'logo' ,'country')
 
 class MatchSerializer(serializers.ModelSerializer):
-	host_club = ClubSerializer(required=True)
-	guest_club = ClubSerializer(required=True)
-	tournaments = TournamentsSerializer(required=True)
+	# host_club = ClubSerializer(required=True)
+	host_club = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+	# guest_club = ClubSerializer(required=True)
+	guest_club = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+	tournaments = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
 	class Meta:
 		model = Match
 		fields = ('id', 'host_club', 'guest_club', 'ulr_video', 'date', 'tournaments')

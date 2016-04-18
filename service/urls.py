@@ -26,9 +26,11 @@ urlpatterns = [
 	url(r'^tournaments/get_all_tournaments_in_country/(?P<country_id>[0-9]+)/$', tournaments.get_all_tournaments_in_country),
 
 	#--------------------list url about match-----------------------------------
-	url(r'match/$', match.index, name='index'),
-	url(r'match/create/$', match.create),
-	url(r'match/get_list/$', match.get_list),
+	url(r'^match/$', match.index, name='index'),
+	url(r'^match/create/$', match.create),
+	url(r'^match/get_list/$', match.get_list),
+	url(r'^match/get_list_today/$', match.get_match_today),
+	url(r'^match/get_match_by_tournament/(?P<tournament_id>[0-9]+)/$', match.get_match_by_tournament),
 
 ]
 
