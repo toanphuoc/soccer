@@ -32,7 +32,7 @@ class MatchSerializer(serializers.ModelSerializer):
 	tournaments = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
 	class Meta:
 		model = Match
-		fields = ('id', 'host_club', 'guest_club', 'date', 'tournaments')
+		fields = ('id', 'host_club', 'guest_club', 'date', 'tournaments', 'thumnail')
 
 class MatchDetailSerializer(serializers.ModelSerializer):
 	match = MatchSerializer(many=False)

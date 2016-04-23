@@ -21,8 +21,12 @@ def get_list(request):
 	json = JSONRenderer().render(serialized.data)
 	return HttpResponse(json);
 
+@api_view(['GET'])
 def get_club_by_id(request, club_id):
-	club = Club.objects.get(pk=club_id)
+	try:
+		club = Club.objects.get(pk=club_id)
+	except Club.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
 	serialized = ClubSerializer([club, ][0])
 	json = JSONRenderer().render(serialized.data)
 	return HttpResponse(json)

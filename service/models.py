@@ -79,6 +79,7 @@ class Match(models.Model):
 	host_club = models.ForeignKey(Club, on_delete=models.CASCADE, null=False, related_name='host_club')
 	guest_club = models.ForeignKey(Club, on_delete=models.CASCADE, null=False, related_name='guest_club')
 	date = models.DateTimeField()
+	thumnail = models.URLField(max_length=200, default='')
 	tournaments = models.ForeignKey(Tournaments, null=True, related_name='tournaments')
 
 
