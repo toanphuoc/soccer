@@ -15,6 +15,7 @@ context = dict(request=RequestFactory().get('/'))
 def index(request):
 	return HttpResponse("Hello Club View")
 
+@api_view(['GET'])
 def get_list(request):
 	club = Club.get_list()
 	serialized = ClubSerializer(club, context=context, many=True)
