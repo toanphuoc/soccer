@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from service.models import Country, Club, Tournaments, Match, VideoType, MatchDetail
+from service.models import Country, Club, Tournaments, Match, VideoType, MatchDetail, Status
+
+class StatusSerializer(serializers.Serializer):
+	status = serializers.BooleanField(default=False)
+	msg = serializers.CharField()
 
 class CountrySerializer(serializers.ModelSerializer):
 	class Meta:

@@ -1,6 +1,18 @@
 from django.db import models
-
+import json
+import os
 # Create your models here.
+
+class Status(object):
+	status = False
+	msg = ''
+
+	def __init__(self, status, msg):
+		self.status = status
+		self.msg = msg
+
+	def parse_json(self):
+		return json.dumps(self.__dict__)
 
 class Country(models.Model):
 	name_country  = models.CharField(max_length=200)
@@ -38,6 +50,24 @@ class Club(models.Model):
 
 	def get_list():
 		return Club.objects.all()
+
+	def validate_logo_type(path_file):
+		file_types = ['.png', '.jpg', '.gif', '.tiff', '.jpeg', '.bmp']
+		fileName, fileExtension = os.path.splitext(path_file);
+		for file_type in file_types:
+			if fileExtension.lower() == file_type.lower():
+				return True;
+		return False
+
+	def validate_logo_size(file_name):
+		try:
+			file_size = os.path.getsize(file_name)
+		except:
+			file_size = os.stat(file_name).st_size 
+		
+		if file_size / 1024 < 1024:
+			return True
+		return False
 
 class Position(models.Model):
 	"""docstring for Position"""
